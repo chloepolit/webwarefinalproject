@@ -1,0 +1,221 @@
+import React, { useState } from "react";
+
+function ReadingList({ readings, onUpdate, onDelete }) {
+  const [editingId, setEditingId] = useState(null);
+  const [editData, setEditData] = useState({});
+
+  const startEdit = (reading) => {
+    setEditingId(reading._id);
+    setEditData({ ...reading });
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setEditData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const saveEdit = () => {
+    const pagesRead = Number(editData.pagesRead);
+    const totalPages = Number(editData.totalPages);
+
+    const updatedReading = {
+      ...editData,
+      pagesRead: pagesRead,
+      totalPages: totalPages,
+      percentComplete: Math.round((pagesRead / totalPages) * 100),
+    };
+    onUpdate(updatedReading);
+    setEditingId(null);
+    setEditData({});
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditData({});
+  };
+
+  return (
+    <div className="mt-4">
+      <h2 className="mb-3">My Reading List</h2>
+
+      {readings.length === 0 ? (
+        <p className="text-muted">
+          No readings added yet. Click "+ Add Reading" to get started.
+        </p>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-striped table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Class</th>
+                <th>Type</th>
+                <th>Progress</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {readings.map((reading) => (
+                <tr key={reading._id}>
+                  {editingId === reading._id ? (
+                    <>
+                      <td>
+                        <input
+                          type="text"
+                          name="title"
+                          className="form-control form-control-sm"
+                          value={editData.title}
+                          onChange={handleChange}
+                        />
+                      </td>
+
+                      <td>
+                        <input
+                          type="text"
+                          name="course"
+                          className="form-control form-control-sm"
+                          value={editData.course}
+                          onChange={handleChange}
+                        />
+                      </td>
+
+                      <td>
+                        <select
+                          name="type"
+                          className="form-select form-select-sm"
+                          value={editData.type}
+                          onChange={handleChange}
+                        >
+                          <option value="Textbook">Textbook</option>
+                          <option value="Book">Book</option>
+                          <option value="Article">Article</option>
+                          <option value="Research Paper">Research Paper</option>
+                          <option value="Chapter">Chapter</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </td>
+
+                      <td>
+                        <div className="d-flex gap-1 align-items-center">
+                          <input
+                            type="number"
+                            name="pagesRead"
+                            className="form-control form-control-sm"
+                            min="0"
+                            value={editData.pagesRead}
+                            onChange={handleChange}
+                          />
+
+                          <span>/</span>
+
+                          <input
+                            type="number"
+                            name="totalPages"
+                            className="form-control form-control-sm"
+                            min="1"
+                            value={editData.totalPages}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </td>
+
+                      <td>
+                        <input
+                          type="date"
+                          name="dueDate"
+                          className="form-control form-control-sm"
+                          value={editData.dueDate}
+                          onChange={handleChange}
+                        />
+                      </td>
+
+                      <td>
+                        <select
+                          name="status"
+                          className="form-select form-select-sm"
+                          value={editData.status}
+                          onChange={handleChange}
+                        >
+                          <option value="Not Started">Not Started</option>
+                          <option value="In Progress">In Progress</option>
+                          <option value="Completed">Completed</option>
+                        </select>
+                      </td>
+
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-sm me-2"
+                          onClick={saveEdit}
+                        >
+                          Save
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-sm"
+                          onClick={cancelEdit}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>
+                        {reading.url ? (
+                          <a
+                            href={reading.url}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {reading.title}
+                          </a>
+                        ) : (
+                          reading.title
+                        )}
+                      </td>
+
+                      <td>{reading.course}</td>
+                      <td>{reading.type}</td>
+                      <td>{reading.percentComplete}%</td>
+                      <td>{reading.dueDate || "—"}</td>
+                      <td>{reading.status}</td>
+
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-sm me-2"
+                          onClick={() => startEdit(reading)}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-sm"
+                          onClick={() => onDelete(reading._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default ReadingList;
