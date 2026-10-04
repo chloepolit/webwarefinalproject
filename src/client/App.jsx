@@ -13,18 +13,27 @@ const emptyApplication = {
 };
 
 function applicationAge(dateApplied) {
-  const oneDay = 1000 * 60 * 60 * 24;
+  const oneDay = 1000*60*60*24;
   const appliedDate = new Date(`${dateApplied}T00:00:00`);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const diffDays = Math.floor((today - appliedDate) / oneDay);
+  const diffDays = Math.floor((today - appliedDate)/oneDay);
 
-  if (diffDays < 0 || Number.isNaN(diffDays)) return "Invalid date";
-  if (diffDays === 0) return "Today";
-  if (diffDays === 1) return "1 day ago";
-  if (diffDays < 7) return `${diffDays} days ago`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+  if (diffDays < 0 || Number.isNaN(diffDays)) {
+    return "Invalid date";
+    }
+  if (diffDays === 0) {
+    return "Today";}
+  if (diffDays === 1) {
+    return "1 day ago";
+  }
+  if (diffDays < 7) {
+    return `${diffDays} days ago`;
+  }
+  if (diffDays < 30) {
+    return `${Math.floor(diffDays / 7)} weeks ago`;}
+  if (diffDays < 365)
+    {return `${Math.floor(diffDays / 30)} months ago`;}
   return `${Math.floor(diffDays / 365)} years ago`;
 }
 
