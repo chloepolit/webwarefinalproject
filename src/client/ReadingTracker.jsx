@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReadingForm from "./ReadingForm";
 import ReadingList from "./ReadingList";
 
@@ -6,21 +6,53 @@ function ReadingTracker() {
   const [readings, setReadings] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
+  useEffect(() => {
+    fetch("/api/readings")
+      .then((response) => response.json())
+      .then((data) => {
+        setReadings(data);
+      });
+  }, []);
+
   const addReading = (newReading) => {
-    setReadings([...readings, newReading]);
-    setShowForm(false);
+    fetch("/api/readings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newReading),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setReadings([...readings, data]);
+        setShowForm(false);
+      });
   };
 
   const updateReading = (updatedReading) => {
-    setReadings(
-      readings.map((reading) =>
-        reading._id === updatedReading._id ? updatedReading : reading
-      )
-    );
+    fetch("/api/readings/" + updatedReading._id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedReading),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setReadings(
+          readings.map((reading) => (reading._id === data._id ? data : reading))
+        );
+      });
   };
 
   const deleteReading = (id) => {
-    setReadings(readings.filter((reading) => reading._id !== id));
+    fetch("/api/readings/" + id, {
+      method: "DELETE",
+    }).then((response) => {
+      if (response.ok) {
+        setReadings(readings.filter((reading) => reading._id !== id));
+      }
+    });
   };
 
   return (
