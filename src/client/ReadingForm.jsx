@@ -25,19 +25,8 @@ function ReadingForm({ show, onClose, onAdd }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const pagesRead = Number(formData.pagesRead);
-    const totalPages = Number(formData.totalPages);
-
-    const newReading = {
-      ...formData,
-      _id: Date.now().toString(),
-      pagesRead: pagesRead,
-      totalPages: totalPages,
-      percentComplete: Math.round((pagesRead / totalPages) * 100),
-    };
-
-    onAdd(newReading);
+    
+    onAdd(formData);
 
     setFormData({
       title: "",

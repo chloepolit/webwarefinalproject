@@ -19,16 +19,7 @@ function ReadingList({ readings, onUpdate, onDelete }) {
   };
 
   const saveEdit = () => {
-    const pagesRead = Number(editData.pagesRead);
-    const totalPages = Number(editData.totalPages);
-
-    const updatedReading = {
-      ...editData,
-      pagesRead: pagesRead,
-      totalPages: totalPages,
-      percentComplete: Math.round((pagesRead / totalPages) * 100),
-    };
-    onUpdate(updatedReading);
+    onUpdate(editData);
     setEditingId(null);
     setEditData({});
   };
