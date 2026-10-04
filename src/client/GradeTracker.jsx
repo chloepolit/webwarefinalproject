@@ -11,7 +11,8 @@ function GradeTracker(){
         cmts: ''
       })
     
-      const [entries, setEntries] = useState([ ]) 
+      const [entries, setEntries] = useState([])
+      const [updatedGPA, setUpdatedGPA] = useState(0.0) 
     
       const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,12 +27,15 @@ function GradeTracker(){
         })
         .then( response => response.json() )
         .then( json => {
-           setEntries( json )
+           setEntries( json.entries )
+           setUpdatedGPA(json.updatedGPA)
+
         })
       }
     
       return (
         <div className="App">
+          <h2>Current GPA: {updatedGPA}</h2>
           <GradeForm 
             formData={formData} 
             onChange={handleChange} 
@@ -46,12 +50,6 @@ function GradeTracker(){
         </div>
       )
     
-    // return (
-    //     <div>
-    //         <GradeForm/>
-    //         <GradeList/>
-    //     </div>
-    // )
 }
 
 export default GradeTracker;
