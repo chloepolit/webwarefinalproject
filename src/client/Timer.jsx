@@ -106,6 +106,7 @@ export default function PomodoroTimer() {
 
         <div>
           <Buttons />
+          <img src="/crescent_moon_colored.png"></img>
         </div>
 
         <div>
