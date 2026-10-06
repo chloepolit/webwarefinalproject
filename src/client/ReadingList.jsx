@@ -48,6 +48,7 @@ function ReadingList({ readings, onUpdate, onDelete }) {
                 <th>Progress</th>
                 <th>Due Date</th>
                 <th>Status</th>
+                <th>Notes</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -141,21 +142,33 @@ function ReadingList({ readings, onUpdate, onDelete }) {
                       </td>
 
                       <td>
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-sm me-2"
-                          onClick={saveEdit}
-                        >
-                          Save
-                        </button>
+                        <input
+                          type="text"
+                          name="notes"
+                          className="form-control form-control-sm"
+                          value={editData.notes || ""}
+                          onChange={handleChange}
+                        />
+                      </td>
 
-                        <button
-                          type="button"
-                          className="btn btn-secondary btn-sm"
-                          onClick={cancelEdit}
-                        >
-                          Cancel
-                        </button>
+                      <td>
+                        <div className="d-flex gap-2">
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-sm"
+                            onClick={saveEdit}
+                          >
+                            Save
+                          </button>
+
+                          <button
+                            type="button"
+                            className="btn btn-secondary btn-sm"
+                            onClick={cancelEdit}
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </td>
                     </>
                   ) : (
@@ -179,6 +192,7 @@ function ReadingList({ readings, onUpdate, onDelete }) {
                       <td>{reading.percentComplete}%</td>
                       <td>{reading.dueDate || "—"}</td>
                       <td>{reading.status}</td>
+                      <td>{reading.notes || "—"}</td>
 
                       <td>
                         <button

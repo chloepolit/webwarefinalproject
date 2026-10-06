@@ -1,0 +1,97 @@
+.reading-tracker {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+  
+  .reading-tracker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .reading-tracker-header h1 {
+    margin-bottom: 0.4rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  
+  .reading-tracker-header p {
+    margin: 0;
+    color: #6c757d;
+  }
+  
+  .reading-list-section h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+  }
+  
+  /* Table container */
+  
+  .reading-table-container {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+  }
+  
+  .reading-table-container .table {
+    margin-bottom: 0;
+  }
+  
+  .reading-table-container thead th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    white-space: nowrap;
+  }
+  
+  .reading-table-container tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+  }
+  
+  /* Progress */
+  
+  .reading-progress {
+    min-width: 110px;
+  }
+  
+  .reading-progress .progress {
+    height: 7px;
+    margin-top: 5px;
+  }
+  
+  /* Status */
+  
+  .reading-status {
+    display: inline-block;
+    padding: 0.3rem 0.65rem;
+    border-radius: 20px;
+    background-color: #e9ecef;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  /* Actions */
+  
+  .reading-actions {
+    white-space: nowrap;
+  }
+  
+  /* Smaller screens */
+  
+  @media (max-width: 768px) {
+    .reading-tracker {
+      padding: 2rem 1rem;
+    }
+  
+    .reading-tracker-header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
