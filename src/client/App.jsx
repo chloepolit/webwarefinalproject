@@ -1,32 +1,42 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
+import "@zumer/orbit/style";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const navigate = useNavigate();
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div
+      class="bigbang orbit-example"
+      role="img"
+      aria-label="4 satellites across 115 degrees"
+    >
+      <div class="gravity-spot">
+        <div class="orbit-2 guide"></div>
+        <div class="orbit-4 guide"></div>
+        <div class="orbit-6 guide example-ring fit-range">
+          <div class="satellite grow-2x">
+            <button onClick={() => navigate("/timer")}>study timer</button>
+          </div>
+          <div class="satellite grow-2x">
+            <button>grade tracker</button>
+          </div>
+          <div class="satellite grow-2x">
+            <button>job tracker</button>
+          </div>
+          <div class="satellite grow-2x">
+            <button>reading tracker</button>
+          </div>
+        </div>
+        <div class="orbit-0">
+          <div class="satellite at-center">
+            <div class="capsule example-center">
+              <strong>Pluna</strong>
+            </div>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR!
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   );
 }
