@@ -57,13 +57,11 @@ function ReadingTracker() {
   };
 
   return (
-    <div className="container py-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
+    <div className="reading-tracker">
+      <div className="reading-tracker-header">
         <div>
           <h1>Reading Tracker</h1>
-          <p className="text-muted mb-0">
-            Keep track of your assigned readings, deadlines, and progress.
-          </p>
+          <p>Keep track of your assigned readings, deadlines, and progress.</p>
         </div>
 
         <button className="btn btn-primary" onClick={() => setShowForm(true)}>
@@ -77,11 +75,13 @@ function ReadingTracker() {
         onAdd={addReading}
       />
 
-      <ReadingList
-        readings={readings}
-        onUpdate={updateReading}
-        onDelete={deleteReading}
-      />
+      <div className="reading-list-card">
+        <ReadingList
+          readings={readings}
+          onUpdate={updateReading}
+          onDelete={deleteReading}
+        />
+      </div>
     </div>
   );
 }
