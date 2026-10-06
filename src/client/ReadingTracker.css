@@ -29,8 +29,6 @@
     margin-bottom: 1.25rem;
   }
   
-  /* Table container */
-  
   .reading-table-container {
     border: 1px solid #dee2e6;
     border-radius: 10px;
@@ -55,8 +53,6 @@
     vertical-align: middle;
   }
   
-  /* Progress */
-  
   .reading-progress {
     min-width: 110px;
   }
@@ -65,8 +61,6 @@
     height: 7px;
     margin-top: 5px;
   }
-  
-  /* Status */
   
   .reading-status {
     display: inline-block;
@@ -77,13 +71,9 @@
     font-weight: 500;
   }
   
-  /* Actions */
-  
   .reading-actions {
     white-space: nowrap;
   }
-  
-  /* Smaller screens */
   
   @media (max-width: 768px) {
     .reading-tracker {
