@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReadingForm from "./ReadingForm";
 import ReadingList from "./ReadingList";
-import "./ReadingTracker.css";
+import "./index.css";
 
 function ReadingTracker() {
   const [readings, setReadings] = useState([]);
