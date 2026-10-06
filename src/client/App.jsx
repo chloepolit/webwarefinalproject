@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const STORAGE_KEY = "job-applications";
 const statuses = ["applied", "interview", "rejected", "withdraw", "offer"];
 
 const emptyApplication = {
@@ -38,19 +37,21 @@ function applicationAge(dateApplied) {
 }
 
 function App() {
-  const [applications, setApplications] = useState(() => {
-    try {
-      return JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
-    } catch {
-      return [];
-    }
-  });
+  const [applications, setApplications] = useState([]);
   const [form, setForm] = useState(emptyApplication);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(applications));
-  }, [applications]);
+    fetch("/api/applications")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Unable to load applications.");
+        }
+        return response.json();
+      })
+      .then(setApplications)
+      .catch((error) => setMessage(error.message));
+  }, []);
 
   function updateForm(event) {
     const { name, value } = event.target;
@@ -59,30 +60,65 @@ function App() {
 
   function submit(event) {
     event.preventDefault();
-    setApplications((current) => [
-      ...current,
-      { ...form, id: crypto.randomUUID() },
-    ]);
-    setForm(emptyApplication);
-    setMessage("Application added successfully!");
+    fetch("/api/applications", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Unable to add application.");
+        }
+        return response.json();
+      })
+      .then((application) => {
+        setApplications((current) => [...current, application]);
+        setForm(emptyApplication);
+        setMessage("Application added successfully!");
+      })
+      .catch((error) => setMessage(error.message));
   }
 
   function updateStatus(id, status) {
-    setApplications((current) =>
-      current.map((application) =>
-        application.id === id
-          ? { ...application, status, pendingStatus: undefined }
-          : application,
-      ),
-    );
-    setMessage("Application updated successfully!");
+    fetch(`/api/applications/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Unable to update application.");
+        }
+        return response.json();
+      })
+      .then((updatedApplication) => {
+        setApplications((current) =>
+          current.map((application) =>
+            application.id === updatedApplication.id
+              ? updatedApplication
+              : application,
+          ),
+        );
+        setMessage("Application updated successfully!");
+      })
+      .catch((error) => setMessage(error.message));
   }
 
   function deleteApplication(id) {
-    setApplications((current) =>
-      current.filter((application) => application.id !== id),
-    );
-    setMessage("Application deleted successfully!");
+    fetch(`/api/applications/${id}`, { method: "DELETE" })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Unable to delete application.");
+        }
+        return response.json();
+      })
+      .then((deletedApplication) => {
+        setApplications((current) =>
+          current.filter((application) => application.id !== deletedApplication.id),
+        );
+        setMessage("Application deleted successfully!");
+      })
+      .catch((error) => setMessage(error.message));
   }
 
   return (
