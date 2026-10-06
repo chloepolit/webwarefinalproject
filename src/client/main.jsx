@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App";
 import PomodoroTimer from "./Timer";
+import ReadingTrack from "./ReadingTracker";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/timer" element={<PomodoroTimer />} />
+        <Route path="/reading-tracker" element={<ReadingTrack />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
