@@ -6,8 +6,6 @@ const readings = [];
 
 app.use(express.json());
 
-app.use( express.json() )
-
 app.get("/api/readings", (req, res) => {
   res.json(readings);
 });
