@@ -1,16 +1,26 @@
+import 'dotenv/config'
 import express from "express";
 import ViteExpress from "vite-express";
+import {MongoClient} from 'mongodb';
 
 const app = express();
 const appdata = []
 let gpa = 0.0
-
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.PASSWORD}@${process.env.HOST}`
+const client = new MongoClient( uri )
 app.use( express.json() )
 
-app.get( '/read', ( req, res ) => res.json( appdata ) )
+app.get( '/read', async ( req, res ) => {
+  const formEntry = client.db("finalProject").collection('entries')
+  const allEntries = await formEntry.find({}).toArray()
+  return res.json(allEntries)
+
+})
 
 app.post( '/add', ( req,res ) => {
   const {yourname, assignmenttype, gradeletter, cmts} = req.body
+  const formEntry = client.db("finalProject").collection('entries')
+  const user = client.db("finalProject").collection('users')
   let newGPA = 0.0
   if (gradeletter == "a"){
     newGPA = 4.0
@@ -32,8 +42,15 @@ app.post( '/add', ( req,res ) => {
     gradeletter: gradeletter,
     cmts: cmts,
   }
-  
-  appdata.push(newEntry)
+  formEntry.insertOne(newEntry)
+  if (user.findOne({yourname:yourname})){
+    user.updateOne(
+      {yourname: yourname},
+      {$set: {GPA: gpa}}
+    )
+  } else{
+    user.insertOne({yourname: yourname, GPA: gpa})
+  }
   res.json({
     entries: appdata,
     updatedGPA: gpa 

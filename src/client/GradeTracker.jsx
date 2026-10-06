@@ -18,7 +18,7 @@ function GradeTracker(){
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
       }
-    
+      
       function add() {
         fetch( '/add', {
           method:'POST',
@@ -31,8 +31,30 @@ function GradeTracker(){
            setUpdatedGPA(json.updatedGPA)
 
         })
+        fetchInitialData()
+
       }
+      
     
+        const fetchInitialData = async () => {
+          try {
+            const response = await fetch('/read');
+            if (!response.ok) throw new Error('Failed to fetch data');
+            console.log(response)
+            const data = await response.json();
+            console.log(data)
+            setEntries(data)
+
+          } catch (error) {
+            console.error('Error fetching initial entries:', error);
+          }
+        }
+        useEffect(() => {
+          fetchInitialData()
+
+        }, [])
+ 
+
       return (
         <div className="App">
           <h2>Current GPA: {updatedGPA}</h2>
