@@ -119,7 +119,7 @@ app.get("/api/readings", async (req, res) => {
 app.post("/api/readings", async (req, res) => {
   try {
     const newReading = {
-      userID: req.body.userId,
+      userId: req.body.userId,
       title: req.body.title,
       author: req.body.author,
       course: req.body.course,
