@@ -30,6 +30,31 @@ function Login() {
     }
   };
 
+  const handleSignup = async () => {
+    if (!username || !password) {
+      alert("Please enter a username and password.");
+      return;
+    }
+
+    const response = await fetch("/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert("Account created successfully!");
+      localStorage.setItem("userId", result.userId);
+      window.location.href = "/";
+    } else {
+      alert("Sign up failed: " + result.message);
+    }
+  };
+
   return (
     <div className="login-page">
       <div className="login-card">
@@ -65,7 +90,10 @@ function Login() {
           </button>
 
           <p className="signup-text">
-            Don't have an account? <button type="button">Sign Up</button>
+            Don't have an account?{" "}
+            <button type="button" onClick={handleSignup}>
+              Sign Up
+            </button>
           </p>
         </form>
       </div>
