@@ -148,7 +148,7 @@ button {
   width: 120px;
   height: 45px;
   padding: 12px 24px;
-  font-size: 16 px;
+  font-size: 16px;
   white-space: nowrap;
   z-index: 1000;
 }
@@ -246,10 +246,23 @@ button {
   color: #172554;
 }
 
+.reading-table-container td:nth-child(1) input {
+  min-width: 120px;
+}
+
 .reading-table-container th:nth-child(2),
 .reading-table-container td:nth-child(2) {
   min-width: 110px;
   white-space: nowrap;
+}
+
+.reading-table-container td:nth-child(3) select {
+  min-width: 140px;
+}
+
+.reading-table-container td:nth-child(4) input {
+  min-width: 70px;
+  width: 70px;
 }
 
 .reading-table-container th:nth-child(5),
@@ -264,21 +277,21 @@ button {
   white-space: nowrap;
 }
 
+.reading-table-container td:nth-child(6) select {
+  min-width: 140px;
+}
+
 .reading-table-container th:nth-child(7),
 .reading-table-container td:nth-child(7) {
   min-width: 250px;
 }
 
-.reading-status {
-  display: inline-block;
-  padding: 5px 10px;
-  background: #dbeafe;
-  color: #172554;
-  border-radius: 15px;
+.reading-table-container td:nth-child(7) input {
+  min-width: 220px;
 }
 
-.reading-actions {
-  min-width: 110px;
+.reading-table-container td:nth-child(8) {
+  min-width: 190px;
   white-space: nowrap;
 }
 

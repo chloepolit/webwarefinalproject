@@ -1,11 +1,10 @@
 import express from "express";
 import ViteExpress from "vite-express";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import "dotenv/config";
 import bcrypt from "bcrypt";
 
 const app = express();
-const readings = [];
 
 app.use(express.json());
 
@@ -101,78 +100,106 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.get("/api/readings", (req, res) => {
-  res.json(readings);
-});
+app.get("/api/readings", async (req, res) => {
+  try {
+    const userId = req.query.userId;
 
-app.post("/api/readings", (req, res) => {
-  const newReading = {
-    _id: Date.now().toString(),
-    title: req.body.title,
-    author: req.body.author,
-    course: req.body.course,
-    type: req.body.type,
-    url: req.body.url,
-    pagesRead: Number(req.body.pagesRead),
-    totalPages: Number(req.body.totalPages),
-    status: req.body.status,
-    dueDate: req.body.dueDate,
-    notes: req.body.notes,
-  };
+    const readings = await db
+      .collection("readings")
+      .find({ userId: userId })
+      .toArray();
 
-  newReading.percentComplete = Math.round(
-    (newReading.pagesRead / newReading.totalPages) * 100
-  );
-
-  readings.push(newReading);
-
-  res.json(newReading);
-});
-
-app.put("/api/readings/:id", (req, res) => {
-  const readingIndex = readings.findIndex(
-    (reading) => reading._id === req.params.id
-  );
-
-  if (readingIndex === -1) {
-    return res.status(404).json({ error: "Reading not found" });
+    res.json(readings);
+  } catch (error) {
+    console.error("Error getting readings:", error);
+    res.status(500).json({ error: "Could not get readings." });
   }
-
-  const pagesRead = Number(req.body.pagesRead);
-  const totalPages = Number(req.body.totalPages);
-
-  const updatedReading = {
-    _id: req.params.id,
-    title: req.body.title,
-    author: req.body.author,
-    course: req.body.course,
-    type: req.body.type,
-    url: req.body.url,
-    pagesRead: pagesRead,
-    totalPages: totalPages,
-    status: req.body.status,
-    dueDate: req.body.dueDate,
-    notes: req.body.notes,
-    percentComplete: Math.round((pagesRead / totalPages) * 100),
-  };
-
-  readings[readingIndex] = updatedReading;
-
-  res.json(updatedReading);
 });
 
-app.delete("/api/readings/:id", (req, res) => {
-  const readingIndex = readings.findIndex(
-    (reading) => reading._id === req.params.id
-  );
+app.post("/api/readings", async (req, res) => {
+  try {
+    const newReading = {
+      userID: req.body.userId,
+      title: req.body.title,
+      author: req.body.author,
+      course: req.body.course,
+      type: req.body.type,
+      url: req.body.url,
+      pagesRead: Number(req.body.pagesRead),
+      totalPages: Number(req.body.totalPages),
+      status: req.body.status,
+      dueDate: req.body.dueDate,
+      notes: req.body.notes,
+    };
 
-  if (readingIndex === -1) {
-    return res.status(404).json({ error: "Reading not found" });
+    newReading.percentComplete = Math.round(
+      (newReading.pagesRead / newReading.totalPages) * 100
+    );
+
+    const result = await db.collection("readings").insertOne(newReading);
+
+    newReading._id = result.insertedId;
+
+    res.json(newReading);
+  } catch (error) {
+    console.error("Error adding reading:", error);
+    res.status(500).json({ error: "Could not add reading." });
   }
+});
 
-  const deletedReading = readings.splice(readingIndex, 1);
+app.put("/api/readings/:id", async (req, res) => {
+  try {
+    const pagesRead = Number(req.body.pagesRead);
+    const totalPages = Number(req.body.totalPages);
 
-  res.json(deletedReading[0]);
+    const updatedReading = {
+      title: req.body.title,
+      author: req.body.author,
+      course: req.body.course,
+      type: req.body.type,
+      url: req.body.url,
+      pagesRead: pagesRead,
+      totalPages: totalPages,
+      status: req.body.status,
+      dueDate: req.body.dueDate,
+      notes: req.body.notes,
+      percentComplete: Math.round((pagesRead / totalPages) * 100),
+    };
+
+    const result = await db
+      .collection("readings")
+      .findOneAndUpdate(
+        { _id: new ObjectId(req.params.id)},
+        { $set: updatedReading },
+        { returnDocument: "after" }
+      );
+
+    if (!result) {
+      return res.status(404).json({ error: "Reading not found" });
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error("Error updating reading:", error);
+    res.status(500).json({ error: "Could not update reading." });
+  }
+});
+
+app.delete("/api/readings/:id", async (req, res) => {
+  try {
+    const result = await db.collection("readings").deleteOne({
+      _id: new ObjectId(req.params.id), userId: req.query.userId,
+    });
+
+    if (result.deleteCount === 0) {
+      return res.status(404).json({ error: "Reading not found" });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting reading:", error);
+    res.status(500).json({ error: "Could not delete reading." });
+  }
 });
 
 async function startServer() {

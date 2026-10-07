@@ -4,11 +4,13 @@ import ReadingList from "./ReadingList";
 import "./App.css";
 
 function ReadingTracker() {
+  const userId = localStorage.getItem("userId");
+
   const [readings, setReadings] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    fetch("/api/readings")
+    fetch(`/api/readings?userId=${userId}`)
       .then((response) => response.json())
       .then((data) => {
         setReadings(data);
@@ -21,7 +23,7 @@ function ReadingTracker() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newReading),
+      body: JSON.stringify({...newReading, userId: userId,}),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -36,7 +38,7 @@ function ReadingTracker() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedReading),
+      body: JSON.stringify({...updatedReading, userId: userId,}),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -47,7 +49,7 @@ function ReadingTracker() {
   };
 
   const deleteReading = (id) => {
-    fetch("/api/readings/" + id, {
+    fetch(`/api/readings/${id}?userId=${userId}`, {
       method: "DELETE",
     }).then((response) => {
       if (response.ok) {
