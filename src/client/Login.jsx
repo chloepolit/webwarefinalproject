@@ -23,7 +23,7 @@ function Login() {
         alert("Account created successfully!");
       }
 
-      localStorage.setItem("token", result.token);
+      localStorage.setItem("userId", result.userId);
       window.location.href = "/";
     } else {
       alert("Login failed: " + result.message);
