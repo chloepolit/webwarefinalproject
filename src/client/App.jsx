@@ -1,10 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
 import "@zumer/orbit/style";
 
 function App() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    navigate("/login");
+  };
 
   return (
     <div
@@ -37,6 +50,10 @@ function App() {
           </div>
         </div>
       </div>
+
+      <button className="logout-button" onClick={handleLogout}>
+        Log Out
+      </button>
     </div>
   );
 }

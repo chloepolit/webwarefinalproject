@@ -140,3 +140,12 @@ button {
   font-family: "Space Mono", monospace;
   font-weight: bold;
 }
+
+.logout-button {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  padding: 12px 24px;
+  font-size: 16 px;
+  z-index: 1000;
+}
