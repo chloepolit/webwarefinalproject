@@ -48,7 +48,7 @@ function ReadingForm({ show, onClose, onAdd }) {
 
   return (
     <div
-      className="modal show d-block"
+      className="modal show d-block reading-form"
       tabIndex="-1"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
     >
@@ -152,8 +152,8 @@ function ReadingForm({ show, onClose, onAdd }) {
                 />
               </div>
 
-              <div className="row">
-                <div className="col-md-6 mb-3">
+              <div className="reading-pages-row">
+                <div className="reading-pages-field">
                   <label htmlFor="pagesRead" className="form-label">
                     Pages Read *
                   </label>
@@ -170,7 +170,7 @@ function ReadingForm({ show, onClose, onAdd }) {
                   />
                 </div>
 
-                <div className="col-md-6 mb-3">
+                <div className="reading-pages-field">
                   <label htmlFor="totalPages" className="form-label">
                     Total Pages *
                   </label>

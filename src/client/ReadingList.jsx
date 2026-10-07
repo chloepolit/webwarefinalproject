@@ -30,15 +30,15 @@ function ReadingList({ readings, onUpdate, onDelete }) {
   };
 
   return (
-    <div className="mt-4">
+    <div className="reading-list-section">
       <h2 className="mb-3">My Reading List</h2>
 
       {readings.length === 0 ? (
-        <p className="text-muted">
+        <p className="reading-empty-text">
           No readings added yet. Click "+ Add Reading" to get started.
         </p>
       ) : (
-        <div className="table-responsive">
+        <div className="table-responsiv reading-table-container">
           <table className="table table-striped table-hover align-middle">
             <thead>
               <tr>
@@ -190,7 +190,13 @@ function ReadingList({ readings, onUpdate, onDelete }) {
                       <td>{reading.course}</td>
                       <td>{reading.type}</td>
                       <td>{reading.percentComplete}%</td>
-                      <td>{reading.dueDate || "—"}</td>
+                      <td>
+                        {reading.dueDate
+                          ? new Date(
+                              `${reading.dueDate}T00:00:00`
+                            ).toLocaleDateString("en-US")
+                          : "—"}
+                      </td>
                       <td>{reading.status}</td>
                       <td>{reading.notes || "—"}</td>
 

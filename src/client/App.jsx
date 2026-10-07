@@ -28,7 +28,7 @@ function App() {
           <div class="satellite grow-2x">
             <button onClick={() => navigate("/reading-tracker")}>
               reading tracker
-            </button>{" "}
+            </button>
           </div>
         </div>
         <div class="orbit-0">
