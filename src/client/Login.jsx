@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./App.css";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -30,45 +31,43 @@ function Login() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-5">
-          <h1 className="text-center mb-4">College Planner</h1>
+    <div className="login-page">
+      <div className="login-card">
+        <h1>College Planner</h1>
 
-          <form onSubmit={handleLogin}>
-            <div className="mb-3">
-              <label htmlFor="username" className="form-label">
-                Username
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                required
-              />
-            </div>
+        <form onSubmit={handleLogin}>
+          <div className="login-field">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              placeholder="Enter your username"
+              required
+            />
+          </div>
 
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-              />
-            </div>
+          <div className="login-field">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="Enter your password"
+              required
+            />
+          </div>
 
-            <button type="submit" className="btn btn-primary w-100">
-              Log In
-            </button>
-          </form>
-        </div>
+          <button type="submit" className="login-button">
+            Log In
+          </button>
+
+          <p className="signup-text">
+            Don't have an account? <button type="button">Sign Up</button>
+          </p>
+        </form>
       </div>
     </div>
   );
