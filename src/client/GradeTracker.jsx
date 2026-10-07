@@ -3,11 +3,11 @@ import GradeList from './GradeList.jsx';
 import React, { useState, useEffect } from 'react'
 
 function GradeTracker(){
+  const userId = localStorage.getItem("userId")
     const [formData, setFormData] = useState({
-        yourname: '',
+        userId: userId,
         assignmenttype: '',
         gradeletter: '',
-        GPA: '',
         cmts: ''
       })
     
@@ -19,7 +19,8 @@ function GradeTracker(){
         setFormData((prev) => ({ ...prev, [name]: value }));
       }
       
-      function add() {
+      function add(e) {
+        e.preventDefault()
         fetch( '/add', {
           method:'POST',
           body: JSON.stringify(formData),
@@ -27,6 +28,7 @@ function GradeTracker(){
         })
         .then( response => response.json() )
         .then( json => {
+           console.log("Data returned to React on submit:", json)
            setEntries( json.entries )
            setUpdatedGPA(json.updatedGPA)
 
@@ -38,12 +40,24 @@ function GradeTracker(){
     
         const fetchInitialData = async () => {
           try {
-            const response = await fetch('/read');
+            const userId = localStorage.getItem("userId")
+            const response = await fetch('/read', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({userId: userId})
+            })
             if (!response.ok) throw new Error('Failed to fetch data');
-            console.log(response)
+
             const data = await response.json();
-            console.log(data)
-            setEntries(data)
+            setEntries(data.entries)
+
+            if (data.gpa && typeof data.gpa === 'object') {
+              setUpdatedGPA(Number(data.gpa.GPA) || 0.0)
+            } else {
+              setUpdatedGPA(Number(data.gpa) || 0.0)
+            }
 
           } catch (error) {
             console.error('Error fetching initial entries:', error);

@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from "express";
 import ViteExpress from "vite-express";
 import {MongoClient} from 'mongodb';
+import bcrypt from "bcrypt";
 
 const app = express();
 const appdata = []
@@ -10,17 +11,114 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.PASSWORD}@${proc
 const client = new MongoClient( uri )
 app.use( express.json() )
 
-app.get( '/read', async ( req, res ) => {
+app.post( '/read', async ( req, res ) => {
+  const {userId} = req.body
   const formEntry = client.db("finalProject").collection('entries')
-  const allEntries = await formEntry.find({}).toArray()
-  return res.json(allEntries)
+  const userGPA = client.db("finalProject").collection('gpa')
+
+  const allEntries = await formEntry.find({id: userId}).toArray()
+  const gpaRecord = await userGPA.findOne({id: userId})
+  
+  return res.json({
+    entries: allEntries,
+    gpa: gpaRecord
+  })
 
 })
 
-app.post( '/add', ( req,res ) => {
-  const {yourname, assignmenttype, gradeletter, cmts} = req.body
+app.post("/api/signup", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.json({
+        success: false,
+        message: "Username and password are required.",
+      });
+    }
+
+    const users = client.db("finalProject").collection("users");
+
+    const existingUser = await users.findOne({ username });
+
+    if (existingUser) {
+      return res.json({
+        success: false,
+        message: "Username already exists.",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await users.insertOne({
+      username,
+      password: hashedPassword,
+    });
+
+    res.json({
+      success: true,
+      userId: result.insertedId.toString(),
+    });
+  } catch (error) {
+    console.error("Signup error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Could not create account.",
+    });
+  }
+});
+
+app.post("/api/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.json({
+        success: false,
+        message: "Username and password are required.",
+      });
+    }
+
+    const users = client.db("finalProject").collection("users");
+
+    const user = await users.findOne({ username });
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "Incorrect username or password.",
+      });
+    }
+
+    const passwordMatches = await bcrypt.compare(password, user.password);
+    console.log("Password matches:", passwordMatches);
+
+    if (!passwordMatches) {
+      return res.json({
+        success: false,
+        message: "Incorrect username or password.",
+      });
+    }
+
+    res.json({
+      success: true,
+      userId: user._id.toString(),
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Could not log in.",
+    });
+  }
+})
+
+app.post( '/add', async ( req,res ) => {
+  const {userId, assignmenttype, gradeletter, cmts} = req.body
   const formEntry = client.db("finalProject").collection('entries')
-  const user = client.db("finalProject").collection('users')
+  const userGPA = client.db("finalProject").collection('gpa')
   let newGPA = 0.0
   if (gradeletter == "a"){
     newGPA = 4.0
@@ -37,22 +135,24 @@ app.post( '/add', ( req,res ) => {
     gpa = (newGPA + gpa) / 2
   }
   const newEntry = {
-    yourname: yourname,
+    id: userId,
     assignmenttype: assignmenttype,
     gradeletter: gradeletter,
     cmts: cmts,
   }
-  formEntry.insertOne(newEntry)
-  if (user.findOne({yourname:yourname})){
-    user.updateOne(
-      {yourname: yourname},
-      {$set: {GPA: gpa}}
+  await formEntry.insertOne(newEntry)
+
+  if (await userGPA.findOne({id: userId})){
+    await userGPA.updateOne( 
+      {id: userId},
+      {$set:{GPA: gpa}}
     )
   } else{
-    user.insertOne({yourname: yourname, GPA: gpa})
+    await userGPA.insertOne({id: userId, GPA: gpa})
   }
+  const userEntries = await formEntry.find({ id: userId }).toArray();
   res.json({
-    entries: appdata,
+    entries: userEntries,
     updatedGPA: gpa 
   })
 })

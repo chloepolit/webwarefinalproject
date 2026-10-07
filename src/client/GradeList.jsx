@@ -4,7 +4,6 @@ const GradeList = ({ entry }) => {
   return (
     <div>
       <li>
-        <strong>name:</strong> {entry.yourname} <br/> 
         <strong>assignment type:</strong> {entry.assignmenttype} <br/> 
         <strong>grade:</strong> {entry.gradeletter} <br/> 
         <strong>comments:</strong> {entry.cmts} <br/> 
