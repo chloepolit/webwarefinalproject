@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
       <Route path='/' element={<App/>} />
       <Route path="/login" element={<Login />} />
-      <Route path='/grades' element={<GradeTracker/>} />
+      <Route path='/grade-tracker' element={<GradeTracker/>} />
         <Route path="/timer" element={<PomodoroTimer />} />
         <Route path="/reading-tracker" element={<ReadingTrack />} />
       </Routes>

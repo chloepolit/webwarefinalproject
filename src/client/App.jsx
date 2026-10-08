@@ -33,7 +33,7 @@ function App() {
             <button onClick={() => navigate("/timer")}>study timer</button>
           </div>
           <div class="satellite grow-2x">
-            <button>grade tracker</button>
+            <button onClick={() => navigate('/grade-tracker')}>grade tracker</button>
           </div>
           <div class="satellite grow-2x">
             <button>job tracker</button>

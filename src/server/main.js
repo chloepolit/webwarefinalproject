@@ -9,6 +9,7 @@ const appdata = []
 let gpa = 0.0
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.PASSWORD}@${process.env.HOST}`
 const client = new MongoClient( uri )
+let db
 app.use( express.json() )
 
 app.post( '/read', async ( req, res ) => {
@@ -168,12 +169,6 @@ app.post( '/add', async ( req,res ) => {
     updatedGPA: gpa 
   })
 })
-
-app.use(express.json());
-
-const client = new MongoClient(process.env.MONGODB_URI);
-
-let db;
 
 app.post("/api/signup", async (req, res) => {
   try {
