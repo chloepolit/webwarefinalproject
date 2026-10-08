@@ -14,12 +14,12 @@ Platform Walkthrough Link:
 
 What each group member was responsible for designing / developing:
 
-Chloe: Implemented the planner page and functionality, including the backend router and database storage of tasks.
+	Chloe: Implemented the planner page and functionality, including the backend router and database storage of tasks.
 
-Sophia:
+	Sophia:
 
-Angela:
+	Angela:
 
-Evelyn:
+	Evelyn:
 
-Sahana:
+	Sahana:
