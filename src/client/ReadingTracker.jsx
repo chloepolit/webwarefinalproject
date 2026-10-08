@@ -87,9 +87,9 @@ function ReadingTracker() {
       </div>
 
       <div>
-        <span className="back-home-link" onClick={() => navigate("/")}>
+        <Link to="/" className="back-home-link">
           ← Back Home
-        </span>
+        </Link>
       </div>
     </div>
   );
