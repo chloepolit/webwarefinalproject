@@ -8,18 +8,18 @@ We achieve server-side computation implementation with the job tracker, planner,
   
 Challenges we faced in developing this project include database syncing across different functionalities and pages, styling for site cohesion and aesthetic user experience, and merging different pages into one cohesive and navigable site. Through troubleshooting, we were able to design a high-quality styled site intuitive to users. 
 
-Render Link:
+Render Link: https://pluna.onrender.com/
 
 Platform Walkthrough Link:
 
 What each group member was responsible for designing / developing:
 
-Chloe: Implemented the planner page and functionality, including the backend router and database storage of tasks.
+	Chloe: Implemented the planner page and functionality, including the backend router and database storage of tasks.
 
-Sophia:
+	Sophia:
 
-Angela: Developed the reading tracker and login page, allowing users to manage their reading assignments, track their assignments, track their progress, and save their readings to the database. 
+	Angela: Developed the reading tracker and login page, allowing users to manage their reading assignments, track their assignments, track their progress, and save their readings to the database. 
 
-Evelyn:
+    Evelyn: Implemented the study timer and main landing page, as well as some routing
 
-Sahana:
+	Sahana:
