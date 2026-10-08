@@ -16,10 +16,10 @@ button {
   border: none;
   border-radius: 15px;
 
-  height: 35px;
   width: 100px;
   color: white;
   cursor: pointer;
+  margin: 5px;
 }
 
 .timer-container .orbit-example.bigbang {
@@ -361,4 +361,28 @@ button {
   .reading-pages-row {
     flex-direction: column;
   }
+}
+
+.planner-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  max-width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  z-index: 1050;
+  box-sizing: border-box;
+  padding: 24px;
+  border-radius: 16px;
+  background: #1f2d73;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  margin: 5px;
+}
+
+.planner-modal label{
+  display: block; 
+  margin: 15px;
 }

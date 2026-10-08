@@ -23,7 +23,7 @@ function App() {
     <div
       class="bigbang orbit-example"
       role="img"
-      aria-label="4 satellites across 115 degrees"
+      aria-label="5 satellites across 115 degrees"
     >
       <div class="gravity-spot">
         <div class="orbit-2 guide"></div>
@@ -41,6 +41,11 @@ function App() {
           <div class="satellite grow-2x">
             <button onClick={() => navigate("/reading-tracker")}>
               reading tracker
+            </button>
+          </div>
+          <div class="satellite grow-2x">
+            <button onClick={() => navigate("/planner")}>
+              planner
             </button>
           </div>
         </div>
