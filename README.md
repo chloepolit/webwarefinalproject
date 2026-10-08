@@ -10,7 +10,7 @@ Challenges we faced in developing this project include database syncing across d
 
 Render Link: https://pluna.onrender.com/
 
-Platform Walkthrough Link:
+Platform Walkthrough Link: https://youtu.be/kmwFboS-LcM 
 
 What each group member was responsible for designing / developing:
 
