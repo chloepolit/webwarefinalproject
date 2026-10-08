@@ -36,7 +36,9 @@ function App() {
             <button onClick={() => navigate('/grade-tracker')}>grade tracker</button>
           </div>
           <div class="satellite grow-2x">
-            <button>job tracker</button>
+            <button onClick={() => navigate("/job-tracker")}>
+              job tracker
+            </button>
           </div>
           <div class="satellite grow-2x">
             <button onClick={() => navigate("/reading-tracker")}>
