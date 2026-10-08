@@ -1,10 +1,8 @@
-import express from  'express'
-import ViteExpress from 'vite-express'
-
 import 'dotenv/config'
+import express from "express";
+import ViteExpress from "vite-express";
 import { MongoClient, ObjectId } from "mongodb";
 import bcrypt from "bcrypt";
-import plannerRouter from './planner.js';
 
 const app = express();
 const appdata = []
@@ -172,6 +170,93 @@ app.post( '/add', async ( req,res ) => {
   })
 })
 
+app.post("/api/signup", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.json({
+        success: false,
+        message: "Username and password are required.",
+      });
+    }
+
+    const users = db.collection("users");
+
+    const existingUser = await users.findOne({ username });
+
+    if (existingUser) {
+      return res.json({
+        success: false,
+        message: "Username already exists.",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await users.insertOne({
+      username,
+      password: hashedPassword,
+    });
+
+    res.json({
+      success: true,
+      userId: result.insertedId.toString(),
+    });
+  } catch (error) {
+    console.error("Signup error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Could not create account.",
+    });
+  }
+});
+
+app.post("/api/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.json({
+        success: false,
+        message: "Username and password are required.",
+      });
+    }
+
+    const users = db.collection("users");
+
+    const user = await users.findOne({ username });
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "Incorrect username or password.",
+      });
+    }
+
+    const passwordMatches = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatches) {
+      return res.json({
+        success: false,
+        message: "Incorrect username or password.",
+      });
+    }
+
+    res.json({
+      success: true,
+      userId: user._id.toString(),
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Could not log in.",
+    });
+  }
+});
 
 app.get("/api/readings", async (req, res) => {
   try {
@@ -280,11 +365,8 @@ async function startServer() {
     await client.connect();
 
     db = client.db("pluna");
-    app.locals.db = db;
 
     console.log("Connected to MongoDB");
-
-    app.use('/data', plannerRouter); 
 
     ViteExpress.listen(app, 3000, () => {
       console.log("Server is running on http://localhost:3000");
