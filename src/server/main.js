@@ -3,6 +3,7 @@ import express from "express";
 import ViteExpress from "vite-express";
 import { MongoClient, ObjectId } from "mongodb";
 import bcrypt from "bcrypt";
+import plannerRouter from './planner.js';
 
 const app = express();
 const appdata = []
@@ -11,6 +12,7 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.PASSWORD}@${proc
 const client = new MongoClient( uri )
 let db
 app.use( express.json() )
+app.use('/data', plannerRouter);
 
 app.post( '/read', async ( req, res ) => {
   const {userId} = req.body
@@ -477,6 +479,7 @@ async function startServer() {
     await client.connect();
 
     db = client.db("pluna");
+    app.locals.db = db;
 
     console.log("Connected to MongoDB");
 
