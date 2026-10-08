@@ -8,7 +8,7 @@ We achieve server-side computation implementation with the job tracker, planner,
   
 Challenges we faced in developing this project include database syncing across different functionalities and pages, styling for site cohesion and aesthetic user experience, and merging different pages into one cohesive and navigable site. Through troubleshooting, we were able to design a high-quality styled site intuitive to users. 
 
-Render Link:
+Render Link: https://pluna.onrender.com/
 
 Platform Walkthrough Link:
 
@@ -20,6 +20,6 @@ Sophia:
 
 Angela:
 
-Evelyn:
+Evelyn: Implemented the study timer and main landing page, as well as some routing
 
 Sahana:
