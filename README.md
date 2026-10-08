@@ -18,7 +18,7 @@ What each group member was responsible for designing / developing:
 
 	Sophia:
 
-	Angela: Developed the reading tracker and login page, allowing users to manage their reading assignments, track their assignments, track their progress, and save their readings to the database. 
+	Angela: Implemented the reading tracker and login page, including some database intergration. 
 
     Evelyn: Implemented the study timer and main landing page, as well as some routing
 
