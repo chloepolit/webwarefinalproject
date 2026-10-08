@@ -8,6 +8,7 @@ import App from "./App";
 import GradeTracker from "./GradeTracker";
 import Login from "./Login";
 import PomodoroTimer from "./Timer";
+import Planner from "./Planner";
 import ReadingTrack from "./ReadingTracker";
 import JobTrackerPage from "./features/job-tracker/JobTrackerPage";
 
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/login" element={<Login />} />
       <Route path='/grade-tracker' element={<GradeTracker/>} />
         <Route path="/timer" element={<PomodoroTimer />} />
+        <Route path="/planner" element={<Planner/>} />
         <Route path="/reading-tracker" element={<ReadingTrack />} />
       <Route path="/job-tracker" element={<JobTrackerPage />} />
       </Routes>
