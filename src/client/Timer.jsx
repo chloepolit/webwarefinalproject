@@ -120,7 +120,7 @@ export default function PomodoroTimer() {
         </div>
 
         <div>
-          <h2>pomodoro timer</h2>
+          <h2 className="pomodoro-text">pomodoro timer</h2>
           <h1>{getFormattedTime(time)}</h1>
           <button onClick={() => handleClick()}>{label}</button>
         </div>

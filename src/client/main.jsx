@@ -16,13 +16,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-      <Route path='/' element={<App/>} />
-      <Route path="/login" element={<Login />} />
-      <Route path='/grade-tracker' element={<GradeTracker/>} />
+        <Route path="/" element={<App />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/grade-tracker" element={<GradeTracker />} />
         <Route path="/timer" element={<PomodoroTimer />} />
-        <Route path="/planner" element={<Planner/>} />
+        <Route path="/planner" element={<Planner />} />
         <Route path="/reading-tracker" element={<ReadingTrack />} />
-      <Route path="/job-tracker" element={<JobTrackerPage />} />
+        <Route path="/job-tracker" element={<JobTrackerPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

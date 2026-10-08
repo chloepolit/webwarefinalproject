@@ -22,6 +22,10 @@ button {
   margin: 5px;
 }
 
+.pomodoro-text {
+  margin-top: 55px;
+}
+
 .timer-container .orbit-example.bigbang {
   width: min(600px, 100%);
   height: auto;
@@ -394,7 +398,7 @@ button {
   margin: 5px;
 }
 
-.planner-modal label{
-  display: block; 
+.planner-modal label {
+  display: block;
   margin: 15px;
 }
