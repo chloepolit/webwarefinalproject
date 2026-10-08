@@ -1,69 +1,70 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+.space-mono-regular {
+  font-family: "Space Mono", monospace;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  font-style: normal;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+#root {
+  margin: 0;
+  min-height: 80vh;
+  display: flex;
+  place-items: center;
+  font-family: "Space Mono";
 }
 
 body {
+  background-image: linear-gradient(to bottom, #172554, #1e40af);
+  background-attachment: fixed;
+  color: white;
+}
+
+.orbit-example.bigbang {
+  width: min(400px, 100%);
+  height: auto;
+  aspect-ratio: 1;
+  container-type: inline-size;
+}
+
+.orbit-example > .gravity-spot {
+  --o-force: calc(100cqw * 2);
+}
+
+.orbit-example .satellite {
+  border: 0;
+}
+
+.orbit-example .example-center strong {
+  font-size: 48px;
+  font-style: italic;
+}
+
+.orbit-example .example-ring {
+  --o-range: 135deg;
+  --o-from: 115deg;
+}
+
+.orbit-example .guide {
+  border: 1px solid #b5e1f780;
+}
+
+.orbit-example .satellite button {
+  color: white;
+  font-size: 14px;
+  border: none;
+  background-image: linear-gradient(to right, #77a0d333, #79cbcac7);
+  background-color: transparent;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
