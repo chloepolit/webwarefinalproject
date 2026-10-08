@@ -1,33 +1,18 @@
 # Pluna: Productivity App for Students
 
 ## App description
-Your project should consist of a complete Web application, exhibiting facets of the three main sections of the course material:
 
-- Static web page content and design. You should have a project that is accessible, easily navigable, and features significant content.
-- Dynamic behavior implemented with JavaScript (TypeScript is also allowed if your group wants to explore it).
-- Server-side programming *using Node.js*. Typically this will take the form of some sort of persistent data (database), authentication, and possibly server-side computation.
-- A video (less than five minutes) where each group member explains some aspect of the project. An easy way to produce this video is for you all the groups members to join a Zoom call that is recorded; each member can share their screen when they discuss the project or one member can "drive" the interface while other members narrate (this second option will probably work better.) The video should be posted on YouTube or some other accessible video hosting service. Make sure your video is less than five minutes, but long enough to successfully  explain your project and show it in action. There is no minimum video length.
+Pluna is a space-themed static college planner/productivity app with a planner, grade tracker, study timer, and job tracker. This has been developed specifically with students and people in academia to utilize to assist in high productivity and organization. Users will be able to create accounts and login to access each page as well as save information associated with their profile through submission forms which can be added to, modified, and/or deleted. Key technologies used to implement this include React, JavaScript, Node.js, and MongoDB. This project provides a support application to help students stay organized in their classes, job applications, and time management.
+	We achieve server-side computation implementation with the job tracker, planner, and gpa calculator. The server adds a column showing how long ago the user submitted the application and include a note reminding them when to follow up. The planner uses a column for each day and parses the tasks day by day, dynamically sorting the list of tasks based on time deadline. For the grade tracker, a grade calculator was integrated saving specific scores and calculating the full current gpa.
+  Challenges we faced in developing this project include database syncing across different functionalities and pages, styling for site cohesion and aesthetic user experience, and merging different pages into one cohesive and navigable site. Through troubleshooting, we were able to design a high-quality styled site intuitive to users. 
 
-Users/stakeholders:
+Render Link:
 
-Impact: productivity of students
+Platform Walkthrough Link:
 
-1. A brief description of what you created, and a link to the project itself (two paragraphs of text):
-
-2. Any additional instructions that might be needed to fully use your project (login information etc.):
-
-3. An outline of the technologies you used and how you used them:
-
-4. What challenges you faced in completing the project:
-
-5. What each group member was responsible for designing / developing:
-Chloe:
+What each group member was responsible for designing / developing:
+Chloe: Implemented the planner page and functionality, including the backend router and database storage of tasks.
 Sophia:
 Angela:
 Evelyn:
 Sahana:
-
-
-6. A link to your project video: 
-
-Think of 1,3, and 4 in particular in a similar vein to the design / tech achievements for A1—A4… make a case for why what you did was challenging and why your implementation deserves a grade of 100%.
