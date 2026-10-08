@@ -363,6 +363,18 @@ button {
   }
 }
 
+.back-home-link {
+  color: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.back-home-link:hover {
+  text-decoration: underline;
+  color: #a8d8ff;
+}
+
 .planner-modal {
   position: fixed;
   top: 50%;

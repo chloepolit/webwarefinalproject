@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReadingForm from "./ReadingForm";
 import ReadingList from "./ReadingList";
 import "./App.css";
+import { Link } from "react-router-dom";
 
 function ReadingTracker() {
   const userId = localStorage.getItem("userId");
@@ -23,7 +24,7 @@ function ReadingTracker() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({...newReading, userId: userId,}),
+      body: JSON.stringify({ ...newReading, userId: userId }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -38,7 +39,7 @@ function ReadingTracker() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({...updatedReading, userId: userId,}),
+      body: JSON.stringify({ ...updatedReading, userId: userId }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -83,6 +84,12 @@ function ReadingTracker() {
           onUpdate={updateReading}
           onDelete={deleteReading}
         />
+      </div>
+
+      <div>
+        <span className="back-home-link" onClick={() => navigate("/")}>
+          ← Back Home
+        </span>
       </div>
     </div>
   );
