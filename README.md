@@ -16,7 +16,7 @@ What each group member was responsible for designing / developing:
 
 	Chloe: Implemented the planner page and functionality, including the backend router and database storage of tasks.
 
-	Sophia:
+	Sofia: Implemented the grade tracker page and functionality, including backend router and database storage of user grades and gpa.
 
 	Angela: Implemented the reading tracker and login page, including some database intergration for the reading tracker. 
 
