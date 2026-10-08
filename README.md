@@ -22,4 +22,4 @@ What each group member was responsible for designing / developing:
 
     Evelyn: Implemented the study timer and main landing page, as well as some routing
 
-	Sahana:
+	Sahana: Implemented the job-tracker, allowing users to add information about their job application, edit their status, and delete if needed. 
