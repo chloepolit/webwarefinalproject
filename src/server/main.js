@@ -120,20 +120,7 @@ app.post( '/add', async ( req,res ) => {
   const formEntry = client.db("finalProject").collection('entries')
   const userGPA = client.db("finalProject").collection('gpa')
   let newGPA = 0.0
-  if (gradeletter == "a"){
-    newGPA = 4.0
-  } else if (gradeletter == "b"){
-    newGPA = 3.0
-  } else if (gradeletter == "c"){
-    newGPA = 2.0
-  } else if (gradeletter == 'd'){
-    newGPA = 1.0
-  }
-  if (gpa == 0.0){
-    gpa = newGPA
-  } else {
-    gpa = (newGPA + gpa) / 2
-  }
+
   const newEntry = {
     id: userId,
     assignmenttype: assignmenttype,
@@ -141,7 +128,33 @@ app.post( '/add', async ( req,res ) => {
     cmts: cmts,
   }
   await formEntry.insertOne(newEntry)
-
+  const userEntries = await formEntry.find({ id: userId }).toArray()
+  if (gpa == 0.0){
+    if (gradeletter == "a"){
+      newGPA = 4.0
+    } else if (gradeletter == "b"){
+      newGPA = 3.0
+    } else if (gradeletter == "c"){
+      newGPA = 2.0
+    } else if (gradeletter == 'd'){
+      newGPA = 1.0
+    }
+    gpa = newGPA
+  } else {
+    userEntries.forEach( entry => {
+      const grade = entry.gradeletter
+      if (grade == "a"){
+        newGPA += 4.0
+      } else if (grade == "b"){
+        newGPA += 3.0
+      } else if (grade == "c"){
+        newGPA += 2.0
+      } else if (grade == 'd'){
+        newGPA += 1.0
+      }
+    })
+    gpa = (newGPA / userEntries.length).toFixed(2)
+  }
   if (await userGPA.findOne({id: userId})){
     await userGPA.updateOne( 
       {id: userId},
@@ -150,7 +163,6 @@ app.post( '/add', async ( req,res ) => {
   } else{
     await userGPA.insertOne({id: userId, GPA: gpa})
   }
-  const userEntries = await formEntry.find({ id: userId }).toArray();
   res.json({
     entries: userEntries,
     updatedGPA: gpa 
