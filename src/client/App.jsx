@@ -39,7 +39,9 @@ function App() {
             <button>job tracker</button>
           </div>
           <div class="satellite grow-2x">
-            <button>reading tracker</button>
+            <button onClick={() => navigate("/reading-tracker")}>
+              reading tracker
+            </button>
           </div>
         </div>
         <div class="orbit-0">
