@@ -1,6 +1,7 @@
 import GradeForm from './GradeForm.jsx';
 import GradeList from './GradeList.jsx';
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 
 function GradeTracker(){
   const userId = localStorage.getItem("userId")
@@ -10,7 +11,7 @@ function GradeTracker(){
         gradeletter: '',
         cmts: ''
       })
-    
+      const navigate = useNavigate();
       const [entries, setEntries] = useState([])
       const [updatedGPA, setUpdatedGPA] = useState(0.0) 
     
@@ -71,6 +72,7 @@ function GradeTracker(){
 
       return (
         <div className="App">
+          <button onClick={() => navigate("/")}>home</button>
           <h2>Current GPA: {updatedGPA}</h2>
           <GradeForm 
             formData={formData} 
