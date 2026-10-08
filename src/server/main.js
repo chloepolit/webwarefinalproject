@@ -360,59 +360,116 @@ app.delete("/api/readings/:id", async (req, res) => {
   }
 });
 
-const applications = [];
+function serializeApplication(application) {
+  const { _id, ...fields } = application;
+  return { id: _id.toString(), ...fields };
+}
 
-app.get("/api/applications", (req, res) => {
-  res.json(applications);
+app.get("/api/applications", async (req, res) => {
+  const { userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required." });
+  }
+
+  try {
+    const applications = await db
+      .collection("applications")
+      .find({ userId })
+      .sort({ dateApplied: -1 })
+      .toArray();
+
+    res.json(applications.map(serializeApplication));
+  } catch (error) {
+    console.error("Error loading applications:", error);
+    res.status(500).json({ error: "Could not load applications." });
+  }
 });
 
-app.post("/api/applications", (req, res) => {
-  const { company, role, dateApplied, resume, status } = req.body;
+app.post("/api/applications", async (req, res) => {
+  const { company, role, dateApplied, resume, status, userId } = req.body;
 
-  if (!company || !role || !dateApplied || !status) {
+  if (!company || !role || !dateApplied || !status || !userId) {
     return res.status(400).json({
-      error: "Company, role, date applied, and status are required.",
+      error: "Company, role, date applied, status, and user ID are required.",
     });
   }
 
   const application = {
-    id: Date.now().toString(),
     company,
     role,
     dateApplied,
     resume: resume || "",
     status,
+    userId,
   };
 
-  applications.push(application);
-  res.status(201).json(application);
+  try {
+    const result = await db.collection("applications").insertOne(application);
+    res.status(201).json(
+      serializeApplication({ _id: result.insertedId, ...application }),
+    );
+  } catch (error) {
+    console.error("Error adding application:", error);
+    res.status(500).json({ error: "Could not add application." });
+  }
 });
 
-app.put("/api/applications/:id", (req, res) => {
-  const applicationIndex = applications.findIndex(
-    (application) => application.id === req.params.id,
-  );
+app.put("/api/applications/:id", async (req, res) => {
+  const { userId } = req.query;
 
-  if (applicationIndex === -1) {
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required." });
+  }
+
+  if (!ObjectId.isValid(req.params.id)) {
     return res.status(404).json({ error: "Application not found." });
   }
 
-  const application = applications[applicationIndex];
-  application.status = req.body.status;
-  res.json(application);
+  try {
+    const result = await db.collection("applications").findOneAndUpdate(
+      { _id: new ObjectId(req.params.id), userId },
+      { $set: { status: req.body.status } },
+      { returnDocument: "after" },
+    );
+
+    if (!result) {
+      return res.status(404).json({ error: "Application not found." });
+    }
+
+    res.json(serializeApplication(result));
+  } catch (error) {
+    console.error("Error updating application:", error);
+    res.status(500).json({ error: "Could not update application." });
+  }
 });
 
-app.delete("/api/applications/:id", (req, res) => {
-  const applicationIndex = applications.findIndex(
-    (application) => application.id === req.params.id,
-  );
+app.delete("/api/applications/:id", async (req, res) => {
+  const { userId } = req.query;
 
-  if (applicationIndex === -1) {
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required." });
+  }
+
+  if (!ObjectId.isValid(req.params.id)) {
     return res.status(404).json({ error: "Application not found." });
   }
 
-  const [deletedApplication] = applications.splice(applicationIndex, 1);
-  res.json(deletedApplication);
+  try {
+    const result = await db.collection("applications").findOneAndDelete({
+      _id: new ObjectId(req.params.id),
+      userId,
+    });
+
+    if (!result) {
+      return res.status(404).json({ error: "Application not found." });
+    }
+
+    res.json(serializeApplication(result));
+  } catch (error) {
+    console.error("Error deleting application:", error);
+    res.status(500).json({ error: "Could not delete application." });
+  }
 });
 
 async function startServer() {
