@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import JobApplicationForm from "./JobApplicationForm";
 import JobApplicationList from "./JobApplicationList";
+import {useNavigate} from "react-router-dom";
 
 const emptyApplication = {
   company: "",
@@ -11,6 +12,8 @@ const emptyApplication = {
 };
 
 function JobTrackerPage() {
+  const navigate = useNavigate();
+
   const [applications, setApplications] = useState([]);
   const [form, setForm] = useState(emptyApplication);
   const [message, setMessage] = useState("");
@@ -115,6 +118,7 @@ function JobTrackerPage() {
 
   return (
     <div>
+      <button onClick={() => navigate("/")}>home</button>
       <h1 className="text-center my-4">Job Application Tracker</h1>
 
       <main className="container card p-4 mb-4">
