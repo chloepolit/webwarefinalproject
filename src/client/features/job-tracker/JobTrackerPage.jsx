@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./JobTrackerPage.css";
 
 const statuses = ["applied", "interview", "rejected", "withdraw", "offer"];
 
